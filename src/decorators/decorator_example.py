@@ -1,27 +1,19 @@
-def my_decorator(f):
-    def wrapper():
-        print("Before function")
-        f()
-        print("After function")
-    return wrapper
+def my_decorator(number):
+    def actual_decorator(f):
+        def wrapper(*args, **kargs):
+            for i in range(number):
+                print(f"Before function")
+            f(*args, **kargs)
+            for i in range(number):
+                print("After function")
+
+        return wrapper
+    return actual_decorator
 
 
-@my_decorator
-def execute_task():
-    print("Executing task…")
+@my_decorator(4)
+def execute_task(t):
+    print("Executing task "+str(t))
 
 
-def do_twice(f):
-    def wrapper_do_twice(*args, **kwargs):
-        f(*args, **kwargs)
-        f(*args, **kwargs)
-    return wrapper_do_twice
-
-
-@do_twice
-def count_to(n):
-    message = "".join([i for i in range(1, n+1)])
-
-
-if __name__ == "__main__":
-    execute_task()
+execute_task(2)
